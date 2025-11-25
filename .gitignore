@@ -1,0 +1,39 @@
+# --- macOS ---
+.DS_Store
+
+# --- VSCode ---
+.vscode/
+
+# --- Foundry / Solidity ---
+/contracts/out/
+/contracts/cache/
+/contracts/broadcast/
+/contracts/.forge/
+/contracts/lib/*/
+/contracts/lib/openzeppelin-contracts/.git/
+
+# 如果你使用 forge install，则直接忽略所有 lib
+# 若你想 commit 你自己写的库，可以把上面改成具体路径
+
+# --- Node / Next.js frontend ---
+/frontend/node_modules/
+/frontend/.next/
+/frontend/.turbo/
+/frontend/out/
+/frontend/package-lock.json
+/frontend/npm-debug.log
+/frontend/yarn-debug.log
+/frontend/yarn-error.log
+
+# --- ENV files ---
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.production
+/frontend/.env.development
+
+# --- Logs ---
+*.log
+
+# --- Misc ---
+*.tmp
+*.swp
