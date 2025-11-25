@@ -111,7 +111,7 @@ export default function Home() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-wider">
-            <span className="text-lime-400">HKDC/SGDC</span> FX Desk
+            <span className="text-lime-400">SCCS</span> - StableCoin CyberSpace
           </h1>
 
           <div className="flex items-center gap-3">
