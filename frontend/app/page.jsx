@@ -49,6 +49,7 @@ export default function Home() {
     if (!window.ethereum) return alert("Please install MetaMask.");
     const p = new ethers.BrowserProvider(window.ethereum);
     const accs = await p.send("eth_requestAccounts", []);
+    await ensureAnvilNetwork();
     setProvider(p);
     setSigner(await p.getSigner());
     setAccount(accs[0]);
@@ -312,4 +313,32 @@ export default function Home() {
       </div>
     </main>
   );
+}
+
+async function ensureAnvilNetwork() {
+  try {
+    // 尝试切到 31337 (0x7a69)
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x7a69" }],
+    });
+  } catch (e) {
+    // 如果还没添加到钱包，就先添加再切换
+    if (e.code === 4902) {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: "0x7a69",
+            chainName: "Anvil Localhost",
+            nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+            rpcUrls: ["http://127.0.0.1:8545"],
+          },
+        ],
+      });
+    } else {
+      console.error(e);
+      alert("Please switch MetaMask to Anvil (chainId 31337).");
+    }
+  }
 }
