@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ethers } from "ethers";
 import { ADDR } from "@/lib/addresses";
 import { ABI } from "@/lib/abis";
+import PixelChart from "@/components/PixelChart";
 
 export default function Home() {
   const [provider, setProvider] = useState(null);
@@ -20,10 +21,9 @@ export default function Home() {
 
   // Real-time clock
   const [now, setNow] = useState(Date.now());
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, []);
+  
+  // Exchange rate data for chart
+  const [exchangeRateData, setExchangeRateData] = useState([]);
 
   // ---- New: Pay (transfer) states ----
   const [payToken, setPayToken] = useState("HKDC");
@@ -43,6 +43,83 @@ export default function Home() {
     () => provider && new ethers.Contract(ADDR.STABLEFX, ABI.FX, provider),
     [provider]
   );
+  const oracle = useMemo(
+    () => provider && new ethers.Contract(ADDR.ORACLE, ABI.ORACLE, provider),
+    [provider]
+  );
+
+  useEffect(() => {
+    let intervalId;
+    
+    const fetchExchangeRateData = async () => {
+      if (!oracle || !provider) {
+        console.log("Oracle or provider not ready");
+        return;
+      }
+      
+      try {
+        console.log("Fetching exchange rate data...");
+        // Get current rate from blockchain oracle
+        console.log("Oracle rate:", oracle.getRate());
+        const result = await oracle.getRate();
+        console.log("Raw result from oracle:", result);
+        
+        // Check if result is valid
+        if (!result || result.length < 2) {
+          console.error("Invalid rate data received from oracle");
+          return;
+        }
+        
+        const [rate, updatedAt] = result;
+        console.log("Rate:", rate.toString(), "UpdatedAt:", updatedAt.toString());
+        
+        // Check if rate is valid
+        if (rate === undefined || updatedAt === undefined) {
+          console.error("Rate or timestamp is undefined");
+          return;
+        }
+        
+        // Convert rate to a readable format (18 decimals to actual rate)
+        const formattedRate = Number(ethers.formatUnits(rate, 18));
+        const timestamp = Number(updatedAt) * 1000; // Convert to milliseconds
+        console.log("Formatted rate:", formattedRate, "Timestamp:", new Date(timestamp));
+        
+        // Add to data array
+        setExchangeRateData(prevData => {
+          // Create new data point
+          const newDataPoint = { t: timestamp, rate: formattedRate };
+          
+          // Check if this is a duplicate of the last entry
+          if (prevData.length > 0 && prevData[prevData.length - 1].t === timestamp) {
+            // Update the last entry instead of adding a new one
+            const updatedData = [...prevData];
+            updatedData[updatedData.length - 1] = newDataPoint;
+            return updatedData;
+          }
+          
+          // Add new data point
+          const newData = [...prevData, newDataPoint];
+          
+          // Keep only last 50 data points to prevent memory issues
+          if (newData.length > 50) {
+            newData.shift();
+          }
+          
+          return newData;
+        });
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+      }
+    };
+    
+    // Fetch immediately on load
+    fetchExchangeRateData();
+    
+    // Set up periodic fetching (every 30 seconds)
+    intervalId = setInterval(fetchExchangeRateData, 30000);
+    
+    return () => clearInterval(intervalId);
+  }, [oracle, provider]);
 
   // Connect wallet
   const connect = async () => {
@@ -227,23 +304,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Rate + Static Chart */}
+        {/* Rate + Dynamic Chart */}
         <div className="grid gap-6 md:grid-cols-3">
-          {/* Static image */}
+          {/* Dynamic chart */}
           <div className="md:col-span-2">
-            <img
-              src="/chart_pixel.jpg"
-              alt="HKD/SGD chart"
-              className="
-                w-full
-                max-h-[380px]
-                object-contain
-                bg-black
-                rounded-2xl
-                border border-lime-400/20
-                shadow-[0_0_40px_rgba(70,255,130,0.12)]
-              "
-            />
+            {exchangeRateData.length > 0 ? (
+              <PixelChart data={exchangeRateData} />
+            ) : (
+              <div className="w-full rounded-2xl border border-lime-400/20 bg-black/60 p-3 shadow-[0_0_40px_rgba(70,255,130,0.12)] h-[260px] flex items-center justify-center">
+                <p className="text-lime-300">Loading exchange rate data...</p>
+              </div>
+            )}
           </div>
 
           {/* Time + balances */}
