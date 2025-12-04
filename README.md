@@ -24,7 +24,7 @@ RPC URL: http://127.0.0.1:8545
 
 Chain ID: 31337
 
-⚠️ Add the Anvil local network to MetaMask and import the Anvil virtual accounts into MetaMask. [Not sure how to do it?]("https://support.metamask.io/start/use-an-existing-wallet")
+⚠️ Add the Anvil local network to MetaMask and import the Anvil virtual accounts into MetaMask. [Not sure how to do it?](https://support.metamask.io/start/use-an-existing-wallet)
 
 ## 3 Deploy HKDC Stablecoin
 
