@@ -53,7 +53,7 @@ forge create src/StableCoin.sol:StableCoin \
  "HKD Stable Coin" \
  "HKDC" \
  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 \
- '[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266,       0x70997970C51812dc3A010C7d01b50e0d17dc79C8]'
+ '[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 0x70997970C51812dc3A010C7d01b50e0d17dc79C8]'
 ```
 
 ## 4 Deploy SGDC Stablecoin
@@ -67,7 +67,7 @@ forge create src/StableCoin.sol:StableCoin \
  "SGD Stable Coin" \
  "SGDC" \
  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 \
- '[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266,       0x70997970C51812dc3A010C7d01b50e0d17dc79C8]'
+ '[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 0x70997970C51812dc3A010C7d01b50e0d17dc79C8]'
 ```
 
 ## 5 Deploy Manual Oracle
