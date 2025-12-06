@@ -42,8 +42,6 @@ export const ABI = {
         { type: "address", name: "tokenIn" },
         { type: "address", name: "tokenOut" },
         { type: "uint256", name: "amountIn" },
-        { type: "uint256", name: "minOut" },
-        { type: "uint256", name: "maxAge" },
       ],
       outputs: [
         { type: "uint256", name: "amountOut" },
