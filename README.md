@@ -142,12 +142,14 @@ cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "mint(address,uint256)" 0x7
 cast send 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512 "mint(address,uint256)" 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 1000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://127.0.0.1:8545
 ```
 
+For FX reserves and liquidity
 1000 HKDC -> deployed StableFX
 
 ```
 cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "mint(address,uint256)" 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 1000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://127.0.0.1:8545
 ```
 
+For FX reserves and liquidity
 1000 SGDC -> deployed StableFX
 
 ```
