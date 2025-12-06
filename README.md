@@ -36,7 +36,6 @@ Open a NEW terminal tab and run:
 cd contracts
 ```
 
-Deploy command
 ⚠️ In this example, we select Account(0) as admin of HKDC, SGDC, Oracle, and FX.
 Account(0):
 Address: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266,
