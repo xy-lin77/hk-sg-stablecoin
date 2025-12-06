@@ -163,6 +163,6 @@ cd frontend
 npm run dev
 ```
 
-## 10 Open the website
+## 10 Front-end and Back-end Joint Testing
 
 Open Google Chrome with MetaMask extensions. Paste and goto the URL: http://192.168.32.160:3000
